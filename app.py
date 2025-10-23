@@ -26,11 +26,68 @@ def encode_image_to_base64(image_path):
 
 # Streamlit 
 st.set_page_config(page_title='Tablero Inteligente')
+
+st.markdown("""
+<style>
+/* Fondo animado tipo gradiente */
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+.stApp {
+    background: linear-gradient(-45deg, #fbc2eb, #a6c1ee, #cfd9df, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradientBG 20s ease infinite;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Títulos centrados y con sombra */
+h1, h2 {
+    color: #4b0082;
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(75,0,130,0.5);
+}
+
+/* Textos instructivos más visibles */
+h3, p, label, span {
+    text-align: center;
+    font-size: 18px;
+    color: #2d2d2d;
+}
+
+/* Botón animado */
+button {
+    background: linear-gradient(90deg, #ff6f91, #ff9671);
+    color: white !important;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
+}
+
+/* Canvas centrada con sombra */
+[data-testid="stCanvas"] {
+    display: flex;
+    justify-content: center;
+}
+[data-testid="stCanvas"] canvas {
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.title('Tablero Inteligente')
 with st.sidebar:
-    st.subheader("Acerca de:")
-    st.subheader("En esta aplicación veremos la capacidad que ahora tiene una máquina de interpretar un boceto")
-st.subheader("Dibuja el boceto en el panel  y presiona el botón para analizarla")
+st.markdown(
+    "<h3 style='text-align:center; color:#ff4d6d;'>✏️ Dibuja tu boceto en el panel y presiona el botón para analizarlo 🚀</h3>",
+    unsafe_allow_html=True
+)
 
 # Add canvas component
 #bg_image = st.sidebar.file_uploader("Cargar Imagen:", type=["png", "jpg"])
@@ -69,9 +126,14 @@ api_key = os.environ['OPENAI_API_KEY']
 client = OpenAI(api_key=api_key)
 
 analyze_button = st.button("Analiza la imagen", type="secondary")
+message_placeholder = st.empty()
+
 
 # Check if an image has been uploaded, if the API key is available, and if the button has been pressed
-if canvas_result.image_data is not None and api_key and analyze_button:
+    if canvas_result.image_data is not None and api_key and analyze_button:
+    message_placeholder.markdown("⏳ Analizando tu boceto...")  # Mensaje de carga
+    # Aquí empieza tu procesamiento de la imagen
+
 
     with st.spinner("Analizando ..."):
         # Encode the image
@@ -102,7 +164,7 @@ if canvas_result.image_data is not None and api_key and analyze_button:
         # Make the request to the OpenAI API
         try:
             full_response = ""
-            message_placeholder = st.empty()
+            message_placeholder.markdown(full_response)  # Muestra el resultado final
             response = openai.chat.completions.create(
               model= "gpt-4o-mini",  #o1-preview ,gpt-4o-mini
               messages=[
