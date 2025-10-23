@@ -20,45 +20,47 @@ def encode_image_to_base64(image_path):
 
 
 # Configuración de la página
-st.set_page_config(page_title='Tablero Inteligente')
 st.markdown("""
-    <style>
-    /* Fondo degradado para toda la app */
-    .stApp {
-        background: linear-gradient(135deg, #f0f4ff, #d9e6ff);
-    }
+<style>
+/* Fondo degradado */
+.stApp {
+    background: linear-gradient(135deg, #f0f4ff, #d9e6ff);
+}
 
-    /* Títulos más grandes y llamativos */
-    h1 {
-        color: #4a00e0;
-        font-size: 48px;
-        text-align: center;
-        font-weight: bold;
-    }
-    h2 {
-        color: #ff4d6d;
-        font-size: 32px;
-        font-weight: bold;
-    }
+/* Títulos grandes y llamativos */
+h1 {
+    color: #4a00e0;
+    font-size: 48px;
+    text-align: center;
+    font-weight: bold;
+}
+h2 {
+    color: #ff4d6d;
+    font-size: 32px;
+    font-weight: bold;
+}
 
-    /* Botón de análisis con color y hover */
-    button[kind="secondary"] {
-        background-color: #ff6f61;
-        color: white;
-        font-size: 18px;
-        padding: 10px 25px;
-        border-radius: 12px;
-    }
-    button[kind="secondary"]:hover {
-        background-color: #ff3b2e;
-        cursor: pointer;
-    }
+/* Botón de análisis con color y hover */
+button[kind="secondary"] {
+    background-color: #ff6f61;
+    color: white;
+    font-size: 18px;
+    padding: 10px 25px;
+    border-radius: 12px;
+}
+button[kind="secondary"]:hover {
+    background-color: #ff3b2e;
+    cursor: pointer;
+}
 
-    /* Canvas con borde y sombra */
-    div[role="application"] {
-        border: 3px solid #4a00e0;
-        border-radius: 12px;
-
+/* Canvas con borde y sombra */
+div[role="application"] {
+    border: 3px solid #4a00e0;
+    border-radius: 12px;
+    box-shadow: 4px 4px 20px rgba(0,0,0,0.2);
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Título y descripción
 st.title('Tablero Inteligente')
